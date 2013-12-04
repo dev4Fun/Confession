@@ -1,0 +1,42 @@
+{% load staticfiles %}
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static "confession/bootstrap/js/bootstrap.min.js" %}">
+    </script>
+    
+      <div id="fb-root"></div>
+        <script>(function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=348647277246";
+          fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script>
+
+<script>
+$( document ).ready(function() {
+
+// toggle active element on nav bar
+var title = document.getElementsByTagName("title")[0].innerHTML;
+$('.nav a:contains('+ title + ')').parent().addClass('active');
+
+// clean the text field
+$("#clean").click(function() {
+  $("textarea.form-control").val("");
+});
+
+// disable/enable submit button
+$("textarea").on('input', function() {
+  var typed_text = $(this).val().length;
+
+    if(typed_text >= 10 && typed_text < 500) {
+         $("#submit").removeAttr("disabled");
+    } else {
+         $("#submit").attr('disabled',"true");
+    }
+});
+
+
+});
+</script>

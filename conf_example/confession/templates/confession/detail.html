@@ -1,0 +1,39 @@
+{% extends "confession/base.html" %}
+
+{% block title %}confession.title{% endblock %}
+
+{% block confessions %}
+    <div id="confessions">
+                  <div class="panel panel-default">
+                        <div class="panel-heading"> 
+                        <p><span class="text-primary">Title:</span> {{ confession.title }} </p>
+                         </div>
+                            <div class="panel-body"> 
+                                 {{ confession.text }} 
+                                 <br>
+                                 <button type="button" class="btn btn-success">
+                                 <span class="glyphicon glyphicon-thumbs-up"></span> Like
+                                 </button>
+                                 {{ confession.likes }}
+
+                                 <button type="button" class="btn btn-danger">
+                                 <span class="glyphicon glyphicon-thumbs-down"></span> Dislike
+                                 </button>
+                                  {{ confession.dislikes }}
+                                
+                            </div>
+
+                            <div class="panel-footer"> 
+                                <p> Date Published: 
+                                <span class="label label-default">{{ confession.pub_date }}</span></p>
+                                <p> By:
+                                <span class="label label-default">{{ confession.author }}</span></p>
+                            </div>
+
+                            <div class="fb-comments" data-href="{{confession.get_absolute_url}}" data-numposts="5" data-colorscheme="light"></div> 
+                    </div>
+    </div>
+{% endblock %}
+
+ {% block pagination %}
+ {% endblock %}

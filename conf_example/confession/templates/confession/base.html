@@ -1,0 +1,117 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+{% include "confession/include.html" %}
+
+<head>
+    <link rel="stylesheet" href="{% static "confession/bootstrap/css/bootstrap.min.css" %}" />
+    <link rel="stylesheet" href="{% static "confession/css/style.css" %}" />
+    <title>{% block title %}Home{% endblock %}</title>
+</head>
+
+<header>
+    <div class="jumbotron">
+      <h1>Confession webpage</h1>
+      <img src="..." alt="..." class="img-rounded">
+      <p>Share your confession with all the students</p>
+      <p><a class="btn btn-primary btn-lg" role="button">Learn  more</a> <small>This is a generic template</small> 
+      </p>
+    </div>
+
+    <ul class="nav nav-tabs">
+   
+      <li><a href="/">
+      <span class="glyphicon glyphicon-home"></span> Home</a></li>
+
+      <li><a href="/submit">
+      <span class="glyphicon glyphicon-pencil"></span> Submit a confession</a></li>
+
+      <li><a href="/about">
+      <span class="glyphicon glyphicon-info-sign"></span> About the authors</a></li>
+
+      <li><a href="/message">
+      <span class="glyphicon glyphicon-envelope"></span> Write us a message</a></li>
+
+    </ul>
+</header>
+
+<body>
+
+<!-- THIS IS COLLAPSABLE THING -->
+{% block collapse %}
+  {% if latest_confession_list %}
+  <div class="panel-group" id="accordion">
+    {% for confession in latest_confession_list %}
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#{{ confession.id }}">
+          <p><span class="text-primary">Title:</span> {{ confession.title }} </p>
+        </a>
+      </h4>
+    </div>
+    <div id="{{ confession.id  }}" class="panel-collapse collapse">
+
+      <div class="panel-body">
+           {{confession.text}}
+           <br>
+           <button type="button" class="btn btn-success btn-sm">
+            <span class="glyphicon glyphicon-thumbs-up"></span> Like
+            </button>
+            {{ confession.likes }}
+
+            <button type="button" class="btn btn-danger btn-sm">
+            <span class="glyphicon glyphicon-thumbs-down"></span> Dislike
+            </button>
+            {{ confession.dislikes }}
+      </div>
+
+        <div class="panel-footer"> 
+            <p> Date Published: 
+            <span class="label label-default">{{ confession.pub_date }}</span></p>
+            <p> By:
+            <span class="label label-default">{{ confession.author }}</span></p>
+        </div>   
+
+            <br>
+            <div class="fb-comments" data-href="{{confession.get_absolute_url}}" data-numposts="5" data-colorscheme="light">
+            </div>
+            
+      
+    </div>
+  </div>
+
+  {% endfor %}
+  {% else %}
+      <p> No confessions are available </p>
+  {% endif %}
+</div>
+{% endblock %}
+
+<!-- END OF COLLAPSABLE THING -->
+
+    {% block pagination %}
+        <ul class="pagination">
+          <li ><a href="#">&laquo;</a></li>
+          <li class="active"><a href="#">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+          <li><a href="#">5</a></li>
+          <li><a href="#">&raquo;</a></li>
+        </ul>
+    {% endblock %}
+
+</body>
+
+    <footer>
+        <div class="well well-sm">
+                <p> Copiright: </p>
+                <p> Social Media: </p>
+        </div>
+    </footer>
+
+
+    
+</html>
