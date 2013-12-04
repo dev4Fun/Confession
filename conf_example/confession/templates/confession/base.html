@@ -39,9 +39,9 @@
 
 <!-- THIS IS COLLAPSABLE THING -->
 {% block collapse %}
-  {% if latest_confession_list %}
+  {% if confession_list %}
   <div class="panel-group" id="accordion">
-    {% for confession in latest_confession_list %}
+    {% for confession in confession_list %}
 
   <div class="panel panel-default">
     <div class="panel-heading">
@@ -93,13 +93,19 @@
 
     {% block pagination %}
         <ul class="pagination">
-          <li ><a href="#">&laquo;</a></li>
-          <li class="active"><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">4</a></li>
-          <li><a href="#">5</a></li>
-          <li><a href="#">&raquo;</a></li>
+
+          <li ><a href="?page=1">&laquo;</a></li>
+          {% if confession_list.has_previous %}
+          <li><a href="?page={{ confession_list.previous_page_number }}">previous</a></li>
+          {% endif %}
+
+        <li class="active"><a href="?page={{ confession_list.number }}">{{ confession_list.number }} </a></li>
+
+          {% if confession_list.has_next %}
+          <li><a href="?page={{ confession_list.next_page_number }}">next</a></li>
+          {% endif %}
+
+          <li><a href="?page={{ confession_list.paginator.num_pages }}">&raquo;</a></li>
         </ul>
     {% endblock %}
 

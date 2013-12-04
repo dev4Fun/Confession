@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.views import generic
 from django import forms
@@ -10,9 +11,22 @@ from django import forms
 from confession.models import Confession
 from django.utils import timezone
 
-class IndexView(generic.ListView):
-	template_name = 'confession/base.html'
-	context_object_name = 'latest_confession_list'
+def index_view(request):
+	confession_list = Confession.objects.all()
+	paginator = Paginator(confession_list, 2)
+
+	page = request.GET.get('page')
+	try:
+		confession_list = paginator.page(page)
+	except PageNotAnInteger:
+		confession_list = paginator.page(1)
+	except EmptyPage:
+		confession_list = paginator.page(paginator.num_pages)
+
+	return render(request, 'confession/base.html', {
+		'confession_list' : confession_list
+		})
+
 
 	def get_queryset(self):
 		""" Return the last ten published confessions """
@@ -48,7 +62,7 @@ def message_view(request):
 		else:
 			form = MessageForm()
 
-		return render(request, 'confession/message.html')
+	return render(request, 'confession/message.html')
 
 def submit_view(request):
 	if request.method == 'POST':
