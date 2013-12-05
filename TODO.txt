@@ -7,7 +7,6 @@ TODO:
 	printing errors for submitting forms - jquery
 	social media and copiright fields 
 	image in the header 
-	Captha  
 	Like/Dislike increment - Base on IP; DO research 
 	Success message on submission
 

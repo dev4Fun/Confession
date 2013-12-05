@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'confession',
+    'captcha',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -81,3 +82,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#CAPTCHA keys
+
+RECAPTCHA_PUBLIC_KEY = '6LexVusSAAAAAIkgylAp5Fv2IyoaVQFS1mxaFRIx'
+RECAPTCHA_PRIVATE_KEY= '6LexVusSAAAAAINkGLRPmGsfr-81lT-m-7M042pf'

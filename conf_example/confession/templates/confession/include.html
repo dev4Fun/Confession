@@ -29,8 +29,8 @@ $("#clean").click(function() {
 // disable/enable submit button
 $("textarea").on('input', function() {
   var typed_text = $(this).val().length;
-
-    if(typed_text >= 10 && typed_text < 500) {
+// change 0 to 10 - THis is for testiong
+    if(typed_text >= 0 && typed_text < 500) {
          $("#submit").removeAttr("disabled");
     } else {
          $("#submit").attr('disabled',"true");
