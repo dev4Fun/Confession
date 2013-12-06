@@ -1,14 +1,13 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic.base import View
 from django.views.generic import TemplateView
 
 from .forms import *
-
 from django.views import generic
-
 
 # Create your views here.
 
@@ -74,6 +73,15 @@ class SubmitView(TemplateView):
 			cd = form.cleaned_data
 			confession = Confession(title=cd['title'], text=cd['text'])
 			confession.save()
-			return HttpResponseRedirect('contacts/thanks/')
+			return HttpResponseRedirect('/success/')
 		return render(request, 'confession/submit.html', { 'form' : form })
+
+class SuccessView(TemplateView):
+	def get(self,request):
+		return render(request, 'confession/success.html', 
+			{
+				'message' : message
+				}
+
+				)
 

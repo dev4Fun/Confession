@@ -1,9 +1,10 @@
 body {
 	padding-left: 5px;
 }
+
 .panel-group {
-	padding-top: 15px;
-	padding-bottom: 10px;
+	padding-top: 10px;
+	padding-bottom: 5px;
 }
 
 .panel {
@@ -16,8 +17,9 @@ input {
 
 .alert {
 	max-width: 500px;
-	max-height: 50px
+	max-height: auto;
 }
+
 textarea {
 	max-width: 500px;
 }

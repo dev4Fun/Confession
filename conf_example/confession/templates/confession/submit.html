@@ -6,6 +6,24 @@
 
 {% block collapse %}
 
+{% if form.errors %}
+
+
+<div class="panel panel-danger">
+  <div class="panel-heading">Error!</div>
+    <div class="panel-body">
+    <p>Please correct the error{{ form.errors|pluralize }} in:</p>
+
+    <ul>
+    {% for error in form.errors %}
+    <li> <span class="label label-info">{{ error }}</span> </li>
+    {% endfor %}
+    </ul>
+    </div>
+</div>
+
+{% endif %}
+
 <form class="form-horizontal" role="form" action="" method="post" >
 <label for="inputPassword" class="control-label">Title:</label>
   <div class="form-group">
