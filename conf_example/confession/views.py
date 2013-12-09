@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -16,8 +16,8 @@ from django.utils import timezone
 
 # rewrite as a class view
 def index_view(request):
-	confession_list = Confession.objects.all()
-	paginator = Paginator(confession_list, 2) # confessions per page 
+	confession_list = Confession.objects.filter(status='S').order_by('-pub_date') # most recent first
+	paginator = Paginator(confession_list, 3) # confessions per page 
 
 	page = request.GET.get('page')
 	try:
@@ -44,9 +44,14 @@ class DetailView(generic.DetailView):
 class AboutView(TemplateView):
 	template_name = 'confession/about.html'
 
-def message_view(request):
-	if request.method == 'POST':
-		form = MessageForm(request.POST)
+class Message_view(TemplateView):
+	form_class = MessageForm
+
+	def get(self,request):
+		form = self.form_class()
+		return render(request, 'confession/message.html', { 'form' : form})
+	def post(self,request, *args, **kwargs):
+		form = self.form_class(request.POST)
 		if form.is_valid():
 			cd = form.cleaned_data
 			send_mail(
@@ -55,11 +60,11 @@ def message_view(request):
 				cd.get('email', 'noreply@example.com'),
 				['siteowner@example.com'],
 				)
-			return render(request, 'confession/message.html')
-		else:
-			form = MessageForm()
-
-	return render(request, 'confession/message.html')
+	
+			return render(request, 'confession/message.html', {
+				'form' : form
+				})
+		return render(request, 'confession/message.html', { 'form' : form })
 
 class SubmitView(TemplateView):
 	form_class = SubmitForm
@@ -73,15 +78,10 @@ class SubmitView(TemplateView):
 			cd = form.cleaned_data
 			confession = Confession(title=cd['title'], text=cd['text'])
 			confession.save()
-			return HttpResponseRedirect('/success/')
+			return render(request, 'confession/submit.html', { 
+				'form' : form ,
+				'success' : 'OK'
+				})
 		return render(request, 'confession/submit.html', { 'form' : form })
 
-class SuccessView(TemplateView):
-	def get(self,request):
-		return render(request, 'confession/success.html', 
-			{
-				'message' : message
-				}
-
-				)
 

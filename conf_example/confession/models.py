@@ -8,7 +8,7 @@ class Confession(models.Model):
 		("S","Submitted"),
 		("P","Posted"))
 
-	title = models.CharField(max_length=50,default="Untitled")
+	title = models.CharField(max_length=50, default="Untitled")
 	text = models.CharField(max_length=500)
 	status = models.CharField(max_length=1,choices=CONFESSION_STATUS, default = "S")
 	pub_date = models.DateTimeField('date published', default=timezone.now()) 

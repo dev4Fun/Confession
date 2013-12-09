@@ -6,11 +6,11 @@ from confession.models import Confession
 class ConfessionAdmin(admin.ModelAdmin):
 	fieldsets = [
 	(None, {
-		'fields': ('title','text','pub_date',('likes','dislikes'),'author'),
+		'fields': ('status','title','text','pub_date',('likes','dislikes'),'author'),
 		})
 	]
 
-	list_display=('title','pub_date','author','is_popular')
+	list_display=('status','title','pub_date','author','is_popular')
 		
 
 admin.site.register(Confession, ConfessionAdmin)

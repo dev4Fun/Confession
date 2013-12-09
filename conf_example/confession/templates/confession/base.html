@@ -20,16 +20,16 @@
 
     <ul class="nav nav-tabs">
    
-      <li><a href="/">
+      <li><a href="{% url 'confession:index' %}">
       <span class="glyphicon glyphicon-home"></span> Home</a></li>
 
-      <li><a href="/submit">
+      <li><a href="{% url 'confession:submit' %}">
       <span class="glyphicon glyphicon-pencil"></span> Submit a confession</a></li>
 
-      <li><a href="/about">
+      <li><a href="{% url 'confession:about' %}">
       <span class="glyphicon glyphicon-info-sign"></span> About the authors</a></li>
 
-      <li><a href="/message">
+      <li><a href="{% url 'confession:message' %}">
       <span class="glyphicon glyphicon-envelope"></span> Write us a Message</a></li>
 
     </ul>

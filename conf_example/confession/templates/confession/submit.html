@@ -6,46 +6,62 @@
 
 {% block collapse %}
 
-{% if form.errors %}
-
-
-<div class="panel panel-danger">
-  <div class="panel-heading">Error!</div>
-    <div class="panel-body">
-    <p>Please correct the error{{ form.errors|pluralize }} in:</p>
-
-    <ul>
-    {% for error in form.errors %}
-    <li> <span class="label label-info">{{ error }}</span> </li>
-    {% endfor %}
-    </ul>
-    </div>
+{% if success %}
+<div class="panel-group">
+  <div class="panel panel-success">
+    <div class="panel-heading">Success!</div>
+      <div class="panel-body">
+      <p>Thanks for your submission, we will review your confession shortly and approve it</p>
+      </div>
+  </div>
 </div>
-
 {% endif %}
 
-<form class="form-horizontal" role="form" action="" method="post" >
-<label for="inputPassword" class="control-label">Title:</label>
-  <div class="form-group">
-  
-    <div class="col-sm-10">
-      <input type="text" name="title" class="form-control" id="inputPassword" placeholder="Title">
-     
-      <label for="inputPassword" class="control-label">Confession:</label>
 
-      <div class="alert alert-warning"><strong> Warning! </strong>Max 500 characters</div>
-      <textarea class="form-control" name="text" rows= 7 placeholder="Enter your text here"></textarea>
-      
-    </div>
-
+{% if form.errors %}
+<div class="panel-group">
+  <div class="panel panel-danger">
+    <div class="panel-heading">Error!</div>
+      <div class="panel-body">
+      <p>Please correct the error{{ form.errors|pluralize }} in:</p>
+      <ul>
+      {% for error in form.errors %}
+      <li> <span class="label label-info">{{ error }}</span></li>
+      {% endfor %}
+      </ul>
+      </div>
   </div>
-  {{ form.captcha }}
-    <p>
-        <button type="submit" id="submit" class="btn btn-default" disabled="true" value="Submit" >Submit</button>
-        <button type="button" id="clean" class="btn btn-default">Clear the text</button>
-      </p>
-    {% csrf_token %}
-</form>
+</div>
+{% endif %}
+
+<div class="panel-group">
+  <div class="panel panel-info">
+   <div class="panel-heading">Panel heading without title</div>
+    <div class="panel-body">
+      <form class="form-horizontal" role="form" action="" method="post" autocomplete="off">
+
+        <div class="form-group">
+          <div class="col-sm-10">
+            <label class="control-label">Title:</label>
+            <input type="text" name="title" class="form-control" id="inputPassword" placeholder="Title">
+           
+            <label class="control-label">Confession:</label>
+            <textarea class="form-control" name="text" rows= 7 placeholder="Enter your text here"></textarea>
+            <span class="help-block">Please, limit your confession to 500 characters</span>
+            
+          </div>
+
+        </div>
+        {{ form.captcha }}
+          <p>
+              <button type="submit" id="submit" class="btn btn-default" disabled="true" value="Submit" >Submit</button>
+              <button type="button" id="clean" class="btn btn-default">Clear the text</button>
+            </p>
+          {% csrf_token %}
+      </form>
+      </div>
+  </div>
+</div>
 
     
 {% endblock %}

@@ -1,13 +1,13 @@
 TODO:
 	pagination to print privios pages(up to 5)
 	about the authors page
-	write us a message page to implement; forms have been written partially, need validation
+	form validation for message submitting
 	automated tests
 	generating unique url for each confession(pretty urls)
-	printing errors for submitting forms - jquery
 	social media and copiright fields 
 	image in the header 
 	Like/Dislike increment - Base on IP; DO research 
-	Success message on submission
+	edit admin page
+	deploy the page on free hosting
 
 
