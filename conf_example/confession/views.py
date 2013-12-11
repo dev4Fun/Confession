@@ -31,25 +31,16 @@ def index_view(request):
 		'confession_list' : confession_list
 		})
 
-class DetailView(generic.DetailView):
-	model = Confession
-	template_name = 'confession/detail.html'
-
-	def get_queryset(self):
-		""" 
-		Excludes unpublished confessions
-		"""
-		return Confession.objects.filter(status='S')
-
 class AboutView(TemplateView):
 	template_name = 'confession/about.html'
 
 class Message_view(TemplateView):
 	form_class = MessageForm
+	template_name = 'confession/message.html'
 
 	def get(self,request):
 		form = self.form_class()
-		return render(request, 'confession/message.html', { 'form' : form})
+		return render(request, self.template_name , { 'form' : form})
 	def post(self,request, *args, **kwargs):
 		form = self.form_class(request.POST)
 		if form.is_valid():
@@ -64,24 +55,25 @@ class Message_view(TemplateView):
 			return render(request, 'confession/message.html', {
 				'form' : form
 				})
-		return render(request, 'confession/message.html', { 'form' : form })
+		return render(request, self.template_name , { 'form' : form })
 
 class SubmitView(TemplateView):
 	form_class = SubmitForm
+	template_name = 'confession/submit.html'
 	
 	def get(self,request):
 		form = self.form_class()
-		return render(request, 'confession/submit.html', { 'form' : form })
+		return render(request, self.template_name, { 'form' : form })
 	def post(self, request, *args, **kwargs):
 		form = self.form_class(request.POST)
 		if form.is_valid():
 			cd = form.cleaned_data
 			confession = Confession(title=cd['title'], text=cd['text'])
 			confession.save()
-			return render(request, 'confession/submit.html', { 
+			return render(request, self.template_name, { 
 				'form' : form ,
 				'success' : 'OK'
 				})
-		return render(request, 'confession/submit.html', { 'form' : form })
+		return render(request, self.template_name, { 'form' : form })
 
 

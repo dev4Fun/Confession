@@ -12,6 +12,6 @@ class SubmitForm(forms.Form):
 
 class MessageForm(forms.Form):
 	captcha = ReCaptchaField() 
-	subject = forms.CharField(max_length=50)
+	subject = forms.CharField(min_length=3, max_length=50)
 	email = forms.EmailField()
-	message = forms.CharField(max_length=500)
+	message = forms.CharField(min_length=10, max_length=500)

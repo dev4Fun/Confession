@@ -6,6 +6,9 @@ from django.core.urlresolvers import reverse
 import os
 os.environ['RECAPTCHA_TESTING'] = 'True'
 
+def create_confession(title='Untitled',text='None'):
+	return Confession.objects.create(title=title, text=text)
+
 # Create your tests here.
 class SubmitViewTest (TestCase):
 
@@ -47,3 +50,12 @@ class ConfessionViewTest(TestCase):
 		self.assertEquals(response.status_code, 200)
 		self.assertContains(response, 'No confessions are available')
 		self.assertQuerysetEqual(response.context['confession_list'], [])
+
+	def test_index_view_with_one_confession(self):
+		confession = create_confession()
+		response = self.client.get(reverse('confession:index'))
+		self.assertQuerysetEqual(response.context['confession_list'],
+			['<Confession: Untitled>']
+			)
+	# test view with submitted and published confession
+

@@ -1,8 +1,7 @@
 TODO:
 	pagination to print privios pages(up to 5)
 	about the authors page
-	form validation for message submitting
-	automated tests
+	test message submitting 
 	generating unique url for each confession(pretty urls)
 	social media and copiright fields 
 	image in the header 
