@@ -23,3 +23,4 @@ class Confession(models.Model):
 		return (self.likes > self.dislikes)
 
 	is_popular.boolean = True
+	 

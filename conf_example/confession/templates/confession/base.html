@@ -19,7 +19,6 @@
     </div>
 
     <ul class="nav nav-tabs">
-   
       <li><a href="{% url 'confession:index' %}">
       <span class="glyphicon glyphicon-home"></span> Home</a></li>
 
@@ -31,14 +30,42 @@
 
       <li><a href="{% url 'confession:message' %}">
       <span class="glyphicon glyphicon-envelope"></span> Write us a Message</a></li>
-
     </ul>
 </header>
 
 <body>
 
+<!-- Success and error messages START -->
+{% if success %}
+<div class="panel-group">
+  <div class="panel panel-success">
+    <div class="panel-heading">Success!</div>
+      <div class="panel-body">
+      <p>Thanks for your submission, we will review your confession shortly and approve it</p>
+      </div>
+  </div>
+</div>
+{% endif %}
+
+{% if form.errors %}
+<div class="panel-group">
+  <div class="panel panel-danger">
+    <div class="panel-heading">Error!</div>
+      <div class="panel-body">
+      <p>Please correct the error{{ form.errors|pluralize }} in:</p>
+      <ul>
+      {% for error in form.errors %}
+      <li> <span class="label label-info">{{ error }}</span></li>
+      {% endfor %}
+      </ul>
+      </div>
+  </div>
+</div>
+{% endif %}
+<!-- Success and error messages END -->
+
 <!-- THIS IS COLLAPSABLE THING -->
-{% block collapse %}
+{% block content %}
   {% if confession_list %}
   <div class="panel-group" id="accordion">
     {% for confession in confession_list %}
@@ -52,19 +79,20 @@
       </h4>
     </div>
     <div id="{{ confession.id  }}" class="panel-collapse collapse">
-
-      <div class="panel-body">
+  <div class="panel-body">
            {{confession.text}}
            <br>
-           <button type="button" class="btn btn-success btn-sm">
-            <span class="glyphicon glyphicon-thumbs-up"></span> Like
-            </button>
+        <button type="button" class="btn btn-success btn-sm">
+          <span class="glyphicon glyphicon-thumbs-up"></span> Like
+        </button>
             {{ confession.likes }}
 
-            <button type="button" class="btn btn-danger btn-sm">
-            <span class="glyphicon glyphicon-thumbs-down"></span> Dislike
-            </button>
+          <button type="button" class="btn btn-danger btn-sm">
+          <span class="glyphicon glyphicon-thumbs-down"></span> Dislike
+          </button>
             {{ confession.dislikes }}
+
+      <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
       </div>
 
         <div class="panel-footer"> 
@@ -75,10 +103,9 @@
         </div>   
 
             <br>
-            <div class="fb-comments" data-href="{{confession.get_absolute_url}}" data-numposts="5" data-colorscheme="light">
+            <div class="fb-comments" data-href="{{ confession.get_absolute_url }}" data-numposts="5" data-colorscheme="light">
             </div>
             
-      
     </div>
   </div>
 
@@ -118,6 +145,4 @@
         </div>
     </footer>
 
-
-    
 </html>

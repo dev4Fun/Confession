@@ -12,5 +12,4 @@ class ConfessionAdmin(admin.ModelAdmin):
 
 	list_display=('status','title','pub_date','author','is_popular')
 		
-
 admin.site.register(Confession, ConfessionAdmin)

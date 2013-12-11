@@ -2,44 +2,13 @@
 
 {% block title %}Submit{% endblock %}
 
- 
-
-{% block collapse %}
-
-{% if success %}
-<div class="panel-group">
-  <div class="panel panel-success">
-    <div class="panel-heading">Success!</div>
-      <div class="panel-body">
-      <p>Thanks for your submission, we will review your confession shortly and approve it</p>
-      </div>
-  </div>
-</div>
-{% endif %}
-
-
-{% if form.errors %}
-<div class="panel-group">
-  <div class="panel panel-danger">
-    <div class="panel-heading">Error!</div>
-      <div class="panel-body">
-      <p>Please correct the error{{ form.errors|pluralize }} in:</p>
-      <ul>
-      {% for error in form.errors %}
-      <li> <span class="label label-info">{{ error }}</span></li>
-      {% endfor %}
-      </ul>
-      </div>
-  </div>
-</div>
-{% endif %}
+{% block content %}
 
 <div class="panel-group">
   <div class="panel panel-info">
    <div class="panel-heading">Panel heading without title</div>
     <div class="panel-body">
       <form class="form-horizontal" role="form" action="" method="post" autocomplete="off">
-
         <div class="form-group">
           <div class="col-sm-10">
             <label class="control-label">Title:</label>
@@ -63,7 +32,6 @@
   </div>
 </div>
 
-    
 {% endblock %}
 
     {% block pagination %}
