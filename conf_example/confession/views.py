@@ -16,10 +16,21 @@ from django.utils import timezone
 
 # rewrite as a class view
 def index_view(request):
+	sl = ":5" # default slicing for pagination
 	confession_list = Confession.objects.filter(status='S').order_by('-pub_date') # most recent first
 	paginator = Paginator(confession_list, 3) # confessions per page 
+	# request.build_absolute_uri(reverse('confession:detail', args=[str(confession.id)])
 
 	page = request.GET.get('page')
+
+	if request.GET.get('page'):
+		if int(page) == 2:
+			sl = ":5"
+		if int(page) == paginator.num_pages:
+			sl = "-5:"
+		elif int(page) > 2:
+			sl = "%d:%d" % (int(page)-3,int(page)+2)
+
 	try:
 		confession_list = paginator.page(page)
 	except PageNotAnInteger:
@@ -28,8 +39,12 @@ def index_view(request):
 		confession_list = paginator.page(paginator.num_pages)
 
 	return render(request, 'confession/base.html', {
-		'confession_list' : confession_list
+		'confession_list' : confession_list,
+		'sl' : sl
 		})
+
+class DetailView(generic.DetailView):
+	model = Confession
 
 class AboutView(TemplateView):
 	template_name = 'confession/about.html'

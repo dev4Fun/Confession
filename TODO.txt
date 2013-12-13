@@ -1,12 +1,12 @@
 TODO:
-	pagination to print privios pages(up to 5)
-	about the authors page
 	test message submitting 
-	generating unique url for each confession(pretty urls)
-	social media and copiright fields 
-	image in the header 
 	Like/Dislike increment - Base on IP; DO research 
 	edit admin page
 	deploy the page on free hosting
+	implement sessions for submittions, user redirect 
 
+Post deploy:
+	about the authors page
+	social media and copiright fields
+	image in the header 
 

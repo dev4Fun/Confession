@@ -22,5 +22,10 @@ class Confession(models.Model):
 	def is_popular(self):
 		return (self.likes > self.dislikes)
 
+	@models.permalink
+	def get_absolute_url(self):
+		return ('confession:detail', [str(self.id)])
+
+
 	is_popular.boolean = True
 	 

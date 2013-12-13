@@ -92,7 +92,7 @@
           </button>
             {{ confession.dislikes }}
 
-      <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+      <div class="fb-like" data-href="{{ request.build_absolute_uri|add:confession.get_absolute_url }}" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
       </div>
 
         <div class="panel-footer"> 
@@ -103,7 +103,7 @@
         </div>   
 
             <br>
-            <div class="fb-comments" data-href="{{ confession.get_absolute_url }}" data-numposts="5" data-colorscheme="light">
+            <div class="fb-comments" data-href="{{ request.build_absolute_uri|add:confession.get_absolute_url }}" data-numposts="5" data-colorscheme="light">
             </div>
             
     </div>
@@ -126,7 +126,16 @@
           <li><a href="?page={{ confession_list.previous_page_number }}">previous</a></li>
           {% endif %}
 
-        <li class="active"><a href="?page={{ confession_list.number }}">{{ confession_list.number }} </a></li>
+        
+          {% for page in confession_list.paginator.page_range|slice:sl %}
+            {% if confession_list.number == page %}
+             <li class="active"><a href="?page={{ page }}">{{ page }} </a></li>
+            {% else %}
+            <li><a href="?page={{ page }}">{{ page }} </a></li>
+            {% endif %}
+          {% endfor %}
+
+
 
           {% if confession_list.has_next %}
           <li><a href="?page={{ confession_list.next_page_number }}">next</a></li>

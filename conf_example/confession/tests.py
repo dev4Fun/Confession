@@ -57,5 +57,6 @@ class ConfessionViewTest(TestCase):
 		self.assertQuerysetEqual(response.context['confession_list'],
 			['<Confession: Untitled>']
 			)
+		
 	# test view with submitted and published confession
 
