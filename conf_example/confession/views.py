@@ -24,9 +24,11 @@ def index_view(request):
 	page = request.GET.get('page')
 
 	if request.GET.get('page'):
-		if int(page) == 2:
+		if int(page) == 2: # second page
 			sl = ":5"
-		if int(page) == paginator.num_pages:
+		if int(page) == (paginator.num_pages-1):
+			sl = "-5:"
+		elif int(page) == paginator.num_pages:
 			sl = "-5:"
 		elif int(page) > 2:
 			sl = "%d:%d" % (int(page)-3,int(page)+2)
@@ -49,7 +51,7 @@ class DetailView(generic.DetailView):
 class AboutView(TemplateView):
 	template_name = 'confession/about.html'
 
-class Message_view(TemplateView):
+class MessageView(TemplateView):
 	form_class = MessageForm
 	template_name = 'confession/message.html'
 
@@ -82,13 +84,24 @@ class SubmitView(TemplateView):
 	def post(self, request, *args, **kwargs):
 		form = self.form_class(request.POST)
 		if form.is_valid():
+			request.session['confession-submitted'] = True
 			cd = form.cleaned_data
 			confession = Confession(title=cd['title'], text=cd['text'])
 			confession.save()
-			return render(request, self.template_name, { 
-				'form' : form ,
-				'success' : 'OK'
-				})
+			return HttpResponseRedirect(reverse('confession:success'))
 		return render(request, self.template_name, { 'form' : form })
 
-
+class SuccessView(View):
+	def get(self,request):
+		if request.session.get('confession-submitted', False): # conf submission
+			request.session.flush()
+			return render(request, 'confession/success.html', {
+				'message' : 'confession'
+				})
+		if request.session.get('message-submitted', False): # message submission
+			return render (request, 'confession/success.html', {
+				'message' : 'message'
+				})
+		else: 
+				return HttpResponseRedirect(reverse('confession:submit'))
+			

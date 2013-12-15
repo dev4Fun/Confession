@@ -4,6 +4,7 @@ TODO:
 	edit admin page
 	deploy the page on free hosting
 	implement sessions for submittions, user redirect 
+	make a list of imported views shorter in confession.urls.py
 
 Post deploy:
 	about the authors page
