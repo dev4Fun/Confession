@@ -7,7 +7,16 @@
 	<div class="panel panel-default">
 	<div class="panel-heading">Success!</div>
 	  <div class="panel-body">
-	    <p> Thank you for submitting your {{ message }} </p>
+	    <p> Thank you for submitting your {{ message }}.</p>
+
+	    {# if confession #}
+	    <p> We will review and approve your confession and soon it will be posted on the main page </p>
+	    {#endif #}
+
+	    {# if e-mail #}
+	    <p> We will get back to you as soon as possible. </p>
+	    {# endif #}
+
 	  </div>
 	</div>
 </div>

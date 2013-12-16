@@ -5,7 +5,7 @@ from confession.views import SubmitView, AboutView, MessageView, DetailView, Suc
 
 urlpatterns = patterns('',
 	url(r'^$', views.index_view, name='index'),
-	url(r'confession/(?P<confession_id>\d+)/$', views.DetailView.as_view(), name='detail'),
+	url(r'confession/(?P<confession_id>\d+)/$', DetailView.as_view(), name='detail'),
 	url(r'^submit', SubmitView.as_view(), name='submit'),
 	url(r'^about', AboutView.as_view(), name="about"),
 	url(r'^message', MessageView.as_view(), name='message'),

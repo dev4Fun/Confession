@@ -1,13 +1,14 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic.base import View
 from django.views.generic import TemplateView
+from django.views import generic
 
 from .forms import *
-from django.views import generic
+
 
 # Create your views here.
 
@@ -18,11 +19,10 @@ from django.utils import timezone
 def index_view(request):
 	sl = ":5" # default slicing for pagination
 	confession_list = Confession.objects.filter(status='S').order_by('-pub_date') # most recent first
-	paginator = Paginator(confession_list, 3) # confessions per page 
+	paginator = Paginator(confession_list, 5) # confessions per page 
 	# request.build_absolute_uri(reverse('confession:detail', args=[str(confession.id)])
 
 	page = request.GET.get('page')
-
 	if request.GET.get('page'):
 		if int(page) == 2: # second page
 			sl = ":5"
@@ -61,6 +61,7 @@ class MessageView(TemplateView):
 	def post(self,request, *args, **kwargs):
 		form = self.form_class(request.POST)
 		if form.is_valid():
+			request.session['message-submitted'] = True
 			cd = form.cleaned_data
 			send_mail(
 				cd['subject'],
@@ -69,9 +70,7 @@ class MessageView(TemplateView):
 				['siteowner@example.com'],
 				)
 	
-			return render(request, 'confession/message.html', {
-				'form' : form
-				})
+			return HttpResponseRedirect(reverse('confession:success'))
 		return render(request, self.template_name , { 'form' : form })
 
 class SubmitView(TemplateView):
@@ -96,12 +95,17 @@ class SuccessView(View):
 		if request.session.get('confession-submitted', False): # conf submission
 			request.session.flush()
 			return render(request, 'confession/success.html', {
-				'message' : 'confession'
+				'message' : 'confession',
+				'confession' : 'true'
 				})
+	
 		if request.session.get('message-submitted', False): # message submission
+			request.session.flush()
 			return render (request, 'confession/success.html', {
-				'message' : 'message'
+				'message' : 'message',
+				'e-mail' : 'true'
 				})
+
 		else: 
 				return HttpResponseRedirect(reverse('confession:submit'))
 			
